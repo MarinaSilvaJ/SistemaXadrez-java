@@ -38,4 +38,10 @@ public class Board {
 		return pieces[position.getRow()][position.getColumn()];
 	}
 	
+	//Ira atribuir a matriz piece a peca e posicao que veio como argumento.
+	public void placePiece(Piece piece, Position position) {
+		pieces[position.getRow()][position.getColumn()] = piece;
+		piece.position = position;
+	}
+	
 }
