@@ -1,12 +1,13 @@
 package aplicacao;
 
-import boardgame.Position;
+import chess.ChessMatch;
 
 public class Programa {
 
 	public static void main(String[] args) {
 		
-		System.out.print("My first project Java :)");
+		ChessMatch chessMatch = new ChessMatch();
+		UI.printBoard(chessMatch.getPiece());
 
 	}
 

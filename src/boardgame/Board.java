@@ -27,4 +27,15 @@ public class Board {
 	public void setColumns(int columns) {
 		this.columns = columns;
 	}
+	
+	// Retornar matriz pieces(peca) pela linha e coluna
+	public Piece piece(int row, int column) {
+		return pieces[row][column];
+	}
+	
+	// Sobrecarga do metodo acima que retorna a matriz pieces(peca) pela posicao
+	public Piece piece(Position position) {
+		return pieces[position.getRow()][position.getColumn()];
+	}
+	
 }

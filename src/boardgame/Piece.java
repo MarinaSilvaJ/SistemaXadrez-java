@@ -14,5 +14,6 @@ public class Piece {
 	protected Board getBoard() { 
 		return board;
 	}
-
+	
+	//Set retirado pois o tabuleiro nao pode ser alterado.
 }
