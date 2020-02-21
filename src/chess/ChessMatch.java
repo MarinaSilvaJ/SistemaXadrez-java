@@ -1,7 +1,6 @@
 package chess;
 
 import boardgame.Board;
-import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -28,9 +27,14 @@ public class ChessMatch {
 		return mat;
 	}
 	
+	//Metodo criado para que a inicializacao da partida (metodo initialSetup()) seja efetuada pela camada de xadrez(chess) e nao mais pelo board
+	private void placeNewPiece(char column, int row, ChessPiece piece) {
+		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+	}
+	
 	//Metodo responsavel em iniciar a partida do jogo.
 	private void initialSetup() {
-		board.placePiece(new Rook(board, Color.BLACK), new Position(7,1));
-		board.placePiece(new King(board, Color.WHITE), new Position(0,4));
+		placeNewPiece('b', 6, new Rook(board, Color.BLACK));
+		placeNewPiece('e', 8, new King(board, Color.WHITE));
 	}
 }

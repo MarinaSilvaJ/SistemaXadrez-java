@@ -1,8 +1,8 @@
 package boardgame;
 
+// Excecao criada para camada board (tabuleiro)
 public class BoardException extends RuntimeException {
 
-	
 	private static final long serialVersionUID = 1L;
 	
 	public BoardException(String msg) {
