@@ -30,7 +30,7 @@ public class ChessMatch {
 	
 	//Metodo responsavel em iniciar a partida do jogo.
 	private void initialSetup() {
-		board.placePiece(new Rook(board, Color.BLACK), new Position(2,1));
+		board.placePiece(new Rook(board, Color.BLACK), new Position(7,1));
 		board.placePiece(new King(board, Color.WHITE), new Position(0,4));
 	}
 }
