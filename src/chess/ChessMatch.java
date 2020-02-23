@@ -49,6 +49,9 @@ public class ChessMatch {
 		if (!board.thereIsAPiece(position)) { //Verifica se nao existe peca na posicao informada
 			throw new ChessException("Nao existe peca na posicao de origem informada");
 		}
+		if (!board.piece(position).isThereAnyPossibleMove()) {
+			throw new ChessException("Nao ha movimento possivel para a peca escolhida");
+		}
 	}
 	
 	//Metodo criado para que a inicializacao da partida (metodo initialSetup()) seja efetuada pela camada de xadrez(chess) e nao mais pelo board
