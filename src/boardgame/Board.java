@@ -43,13 +43,26 @@ public class Board {
 		return pieces[position.getRow()][position.getColumn()];
 	}
 	
-	//Ira atribuir a matriz piece a peca e posicao que veio como argumento (colocar a peca na posicao informada no tabuleiro)
+	//Ira atribuir a matriz pieces a peca e posicao que veio como argumento (colocar a peca na posicao informada no tabuleiro)
 	public void placePiece(Piece piece, Position position) {
 		if(thereIsAPiece(position)) { // Implementando BoardException para verificar se ja existe alguma peca na posicao que foi passada
 			throw new BoardException("Já existe uma peca na posicao: " + position);
 		}
 		pieces[position.getRow()][position.getColumn()] = piece;
 		piece.position = position;
+	}
+	
+	public Piece removePiece(Position position) {
+		if (!positionExists(position)) {//Implementando BoardException caso a posicao informada nao exista
+			throw new BoardException("Posicao nao existe no tabuleiro");
+		}
+		if (piece(position) == null) { //Caso nao exista nenhuma peca na posicao informada para que possa ser removida, retornar null.
+			return null;
+		}
+		Piece aux = piece(position);
+		aux.position = null; //Limpando a posicao atual da peca
+		pieces[position.getRow()][position.getColumn()] = null; //Limpando a peca na posicao passada pelo argumento da matriz pieces
+		return aux;
 	}
 	
 	//Verifica se a posicao existe no tabuleiro dada uma linha e coluna

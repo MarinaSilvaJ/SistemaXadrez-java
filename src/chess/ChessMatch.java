@@ -1,6 +1,8 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
+import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -25,6 +27,28 @@ public class ChessMatch {
 			}
 		}
 		return mat;
+	}
+	
+	//Metodos responsaveis em movimentar a peca no tabuleiro
+	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+		Position source = sourcePosition.toPosition(); //Convertendo posicao origem de formato xadrez para formato normal de matriz
+		Position target = targetPosition.toPosition(); //Convertendo posicao destino de formato xadrez para formato normal de matriz
+		validateSourcePosition(source); //ANtes de mover a peca, verificar de existe peca na posicao informada
+		Piece capturedPiece = makeMove(source, target);
+		return (ChessPiece)capturedPiece;
+	}
+	
+	private Piece makeMove (Position source, Position target) {
+		Piece p = board.removePiece(source);
+		Piece capturedPiece = board.removePiece(target);
+		board.placePiece(p, target);
+		return capturedPiece;
+	}
+	
+	private void validateSourcePosition(Position position) {
+		if (!board.thereIsAPiece(position)) { //Verifica se nao existe peca na posicao informada
+			throw new ChessException("Nao existe peca na posicao de origem informada");
+		}
 	}
 	
 	//Metodo criado para que a inicializacao da partida (metodo initialSetup()) seja efetuada pela camada de xadrez(chess) e nao mais pelo board
