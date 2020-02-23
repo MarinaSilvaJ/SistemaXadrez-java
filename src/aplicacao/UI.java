@@ -32,6 +32,12 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+	//Metodo para limpar tela 
+	public static void cleanScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+	
 	//Metodo respondavel em ler a posicao informada pelo usuario
 	public static ChessPosition readChessPosition(Scanner sc) {
 		try {
