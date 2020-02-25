@@ -10,11 +10,23 @@ public class ChessMatch {
 
 	//Classe principal do sistema, onde sera implementada toda regra do jogo.
 	
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 	
 	public ChessMatch() {
 		board = new Board(8,8); // Construtor para definir o tamanho do tabuleiro.
+		turn = 1;
+		currentPlayer = Color.WHITE; //Partida sempre comeca com as pecas brancas
 		initialSetup();
+	}
+	
+	public int getTurn() {
+		return turn;
+	}
+	
+	public Color getCurrentPlayer() {
+		return currentPlayer;
 	}
 	
 	//Metodo ira retornar uma matriz com as pecas de xadrez correspondente a partida atual 
@@ -43,6 +55,7 @@ public class ChessMatch {
 		validateSourcePosition(source); //ANtes de mover a peca, verificar de existe peca na posicao informada
 		validadeTargetPosition(source, target); //Valida se posicao destino pode receber a peca origem escolhida
 		Piece capturedPiece = makeMove(source, target);
+		nextTurn(); //Troca de turno apos movimentar peca
 		return (ChessPiece)capturedPiece;
 	}
 	
@@ -57,6 +70,9 @@ public class ChessMatch {
 		if (!board.thereIsAPiece(position)) { //Verifica se nao existe peca na posicao informada
 			throw new ChessException("Nao existe peca na posicao de origem informada");
 		}
+		if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()) { //Verifica se peca escolhida para movimentar é do jogador atual
+			throw new ChessException("A escolha de peca nao é sua");
+		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {// Verifica se existe possivel movimento para a peca escolhida
 			throw new ChessException("Nao ha movimento possivel para a peca escolhida");
 		}
@@ -66,6 +82,12 @@ public class ChessMatch {
 		if (!board.piece(source).possibleMove(target)) {//Verifica se a peca na posicao source pode ser moviemntada na posicao target escolhida
 			throw new ChessException("A peca escolhida nao pode ser movida para a posicao de destino");
 		}
+	}
+	
+	// Metodo responsavel pela troca de turno da partida 
+	private void nextTurn() {
+		turn++;
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE; //If ternário
 	}
 	
 	//Metodo criado para que a inicializacao da partida (metodo initialSetup()) seja efetuada pela camada de xadrez(chess) e nao mais pelo board

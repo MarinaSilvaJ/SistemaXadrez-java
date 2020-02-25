@@ -3,6 +3,7 @@ package aplicacao;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -49,6 +50,14 @@ public class UI {
 		catch (RuntimeException e) { //Exception validar caso usuario informe uma posicao que esteja fora dos criterios da msg
 			throw new InputMismatchException("Erro para instanciar posicao do xadrez: Valores validos sao de a1 até h8");
 		}
+	}
+	
+	//Metodo para imprimir na tela o turno e jogador atual
+	public static void printMatch(ChessMatch chessMatch) {
+		printBoard(chessMatch.getPiece());
+		System.out.println();
+		System.out.println("Turn: " + chessMatch.getTurn());
+		System.out.println("Waiting Player: " + chessMatch.getCurrentPlayer());
 	}
 	
 	public static void printBoard(ChessPiece[][] pieces) {
