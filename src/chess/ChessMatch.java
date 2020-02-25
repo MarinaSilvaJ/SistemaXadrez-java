@@ -34,6 +34,7 @@ public class ChessMatch {
 		Position source = sourcePosition.toPosition(); //Convertendo posicao origem de formato xadrez para formato normal de matriz
 		Position target = targetPosition.toPosition(); //Convertendo posicao destino de formato xadrez para formato normal de matriz
 		validateSourcePosition(source); //ANtes de mover a peca, verificar de existe peca na posicao informada
+		validadeTargetPosition(source, target); //Valida se posicao destino pode receber a peca origem escolhida
 		Piece capturedPiece = makeMove(source, target);
 		return (ChessPiece)capturedPiece;
 	}
@@ -49,8 +50,14 @@ public class ChessMatch {
 		if (!board.thereIsAPiece(position)) { //Verifica se nao existe peca na posicao informada
 			throw new ChessException("Nao existe peca na posicao de origem informada");
 		}
-		if (!board.piece(position).isThereAnyPossibleMove()) {
+		if (!board.piece(position).isThereAnyPossibleMove()) {// Verifica se existe possivel movimento para a peca escolhida
 			throw new ChessException("Nao ha movimento possivel para a peca escolhida");
+		}
+	}
+	
+	private void validadeTargetPosition(Position source, Position target) {
+		if (!board.piece(source).possibleMove(target)) {//Verifica se a peca na posicao source pode ser moviemntada na posicao target escolhida
+			throw new ChessException("A peca escolhida nao pode ser movida para a posicao de destino");
 		}
 	}
 	
