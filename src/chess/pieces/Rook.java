@@ -17,7 +17,7 @@ public class Rook extends ChessPiece {
 		return "T"; 
 	}
 	
-	//Movimentos peca Rei: para cima, para baixo e para os dois lados desde que nao tenha nenhuma peca aliada. 
+	//Movimentos peca Torre: para cima, para baixo e para os dois lados desde que nao tenha nenhuma peca aliada e desde que posicao exista
 	//Destino é valido apenas se posicao estiver vazia ou com peca adversaria.
 	@Override
 	public boolean[][] possibleMoves() {
