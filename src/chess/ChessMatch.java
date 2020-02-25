@@ -29,6 +29,13 @@ public class ChessMatch {
 		return mat;
 	}
 	
+	//Metodo criado para imprimir as posicoes possiveis de destino dada a posicao de origem.
+	public boolean[][] possibleMoves(ChessPosition sourcePosition){
+		Position position = sourcePosition.toPosition();
+		validateSourcePosition(position);
+		return board.piece(position).possibleMoves();
+	}
+	
 	//Metodos responsaveis em movimentar a peca no tabuleiro
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
 		Position source = sourcePosition.toPosition(); //Convertendo posicao origem de formato xadrez para formato normal de matriz
