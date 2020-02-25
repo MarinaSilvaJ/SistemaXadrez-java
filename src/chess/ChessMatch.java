@@ -1,5 +1,8 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import boardgame.Board;
 import boardgame.Piece;
 import boardgame.Position;
@@ -13,6 +16,9 @@ public class ChessMatch {
 	private int turn;
 	private Color currentPlayer;
 	private Board board;
+	
+	private List<Piece> piecesOnTheBoard = new ArrayList<>(); //Listas para controle de pecas capturadas
+	private List<Piece> capturedPieces = new ArrayList<>();
 	
 	public ChessMatch() {
 		board = new Board(8,8); // Construtor para definir o tamanho do tabuleiro.
@@ -63,6 +69,12 @@ public class ChessMatch {
 		Piece p = board.removePiece(source);
 		Piece capturedPiece = board.removePiece(target);
 		board.placePiece(p, target);
+		
+		if (capturedPiece != null) { //Se houver peca capturada, retirar a peca da lista do tabuleiro e adicionar peca na lista de pecas capturadas
+			piecesOnTheBoard.remove(capturedPiece);
+			capturedPieces.add(capturedPiece);
+		}
+		
 		return capturedPiece;
 	}
 	
@@ -93,6 +105,7 @@ public class ChessMatch {
 	//Metodo criado para que a inicializacao da partida (metodo initialSetup()) seja efetuada pela camada de xadrez(chess) e nao mais pelo board
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+		piecesOnTheBoard.add(piece); //Adicionando pecas do tabuleiro na lista para controle de pecas capturadas
 	}
 	
 	//Metodo responsavel em iniciar a partida do jogo.
