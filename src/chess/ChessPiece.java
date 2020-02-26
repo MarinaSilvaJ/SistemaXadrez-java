@@ -19,7 +19,12 @@ public abstract class ChessPiece extends Piece{
 		return color;
 	}
 
-   // Set retirado pois a cor nao pode ser alterada.
+    // Set retirado pois a cor nao pode ser alterada.
+	
+	//Metodo para converter a posicao de matriz em posicao de xadrez
+	public ChessPosition getChessPosition() {
+		return ChessPosition.fromPosition(position);
+	}
 	
 	//Metodo para verificar se existe uma peca do oponente na posicao passada pelo argumento
 	protected boolean isThereOpponentPiece(Position position) {

@@ -36,7 +36,7 @@ public class Programa {
 				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
 				
 				//Apos cada jogada, se houver peca capturada, adicionar na lista
-				if (captured != null) {
+				if (capturedPiece != null) {
 					captured.add(capturedPiece);
 				}
 			}
