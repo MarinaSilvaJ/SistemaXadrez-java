@@ -18,6 +18,7 @@ public class ChessMatch {
 	private Color currentPlayer;
 	private Board board;
 	private boolean check;
+	private boolean checkMate;
 	
 	private List<Piece> piecesOnTheBoard = new ArrayList<>(); //Listas para controle de pecas capturadas
 	private List<Piece> capturedPieces = new ArrayList<>();
@@ -39,6 +40,10 @@ public class ChessMatch {
 	
 	public boolean getCheck() {
 		return check;
+	}
+	
+	public boolean getCheckMate() {
+		return checkMate;
 	}
 	
 	//Metodo ira retornar uma matriz com as pecas de xadrez correspondente a partida atual 
@@ -75,7 +80,13 @@ public class ChessMatch {
 		
 		check = (testCheck(opponent(currentPlayer))) ? true : false; //Teste para saber se o oponente esta em check
 		
-		nextTurn(); //Troca de turno apos movimentar peca
+		if (testCheckMate(opponent(currentPlayer))) { //Verifica se oponente esta em checkmate, se estiver ja finaliza a partida
+			checkMate = true;
+		}
+		else {
+			nextTurn(); //Troca de turno apos movimentar peca
+		}
+		
 		return (ChessPiece)capturedPiece;
 	}
 	
@@ -157,6 +168,34 @@ public class ChessMatch {
 		return false;
 	}
 	
+	//Metodo para testar se jogo esta em Checkmate
+	private boolean testCheckMate(Color color) {
+		if (!testCheck(color)) { //Se movimento nao por partida em check, ja retornar para continuidade de movimento
+			return false;
+		}
+		List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
+		for (Piece p : list) { //Percorrer lista com todas as pecas do jogador atual do tabuleiro
+			boolean[][] mat = p.possibleMoves(); //Matriz com movimentos possiveis da peca atual
+			for (int i=0; i<board.getRows(); i++) { //For para percorrer matriz de  movimentos possiveis da peca atual
+				for (int j=0; j<board.getColumns(); j++) {
+					if (mat[i][j]) { //Se movimento atual for verdadeiro, efetuar movimento no tabuleiro (makeMove) para testar se peca atual deixa o jogo em check
+						Position source = ((ChessPiece)p).getChessPosition().toPosition();
+						Position target = new Position(i, j);
+						Piece capturedPiece = makeMove(source, target);
+						boolean testCheck = testCheck(color); //Apos fazer movimento, testar se esta em check
+						undoMove(source, target, capturedPiece); //Desfazer movimento
+						if (!testCheck) { //Se movimento atual nao retornar check, retornar false
+							return false;
+						}
+						
+					}
+					
+				}
+			}
+		}
+		return true;
+	}
+	
 	//Metodo criado para que a inicializacao da partida (metodo initialSetup()) seja efetuada pela camada de xadrez(chess) e nao mais pelo board
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
@@ -165,18 +204,12 @@ public class ChessMatch {
 	
 	//Metodo responsavel em iniciar a partida do jogo.
 	private void initialSetup() {
-		placeNewPiece('c', 1, new Rook(board, Color.WHITE));
-        placeNewPiece('c', 2, new Rook(board, Color.WHITE));
-        placeNewPiece('d', 2, new Rook(board, Color.WHITE));
-        placeNewPiece('e', 2, new Rook(board, Color.WHITE));
-        placeNewPiece('e', 1, new Rook(board, Color.WHITE));
-        placeNewPiece('d', 1, new King(board, Color.WHITE));
+		placeNewPiece('h', 7, new Rook(board, Color.WHITE));
+        placeNewPiece('d', 1, new Rook(board, Color.WHITE));
+        placeNewPiece('e', 1, new King(board, Color.WHITE));
 
-        placeNewPiece('c', 7, new Rook(board, Color.BLACK));
-        placeNewPiece('c', 8, new Rook(board, Color.BLACK));
-        placeNewPiece('d', 7, new Rook(board, Color.BLACK));
-        placeNewPiece('e', 7, new Rook(board, Color.BLACK));
-        placeNewPiece('e', 8, new Rook(board, Color.BLACK));
-        placeNewPiece('d', 8, new King(board, Color.BLACK));
+
+        placeNewPiece('b', 8, new Rook(board, Color.BLACK));
+        placeNewPiece('a', 8, new King(board, Color.BLACK));
 	}
 }
