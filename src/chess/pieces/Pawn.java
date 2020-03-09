@@ -42,8 +42,8 @@ public class Pawn extends ChessPiece {
 			if (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
 				mat[p.getRow()][p.getColumn()] = true;
 			}
-			p.setValue(position.getRow()  + 2, position.getColumn()); //Testando se movimento for duas casas para frente
-			Position p2 = new Position(position.getRow() - 1, position.getColumn()); //Variavel para testar antes se a peca a frente esta vazia e se posicao existe
+			p.setValue(position.getRow() + 2, position.getColumn()); //Testando se movimento for duas casas para frente
+			Position p2 = new Position(position.getRow() + 1, position.getColumn()); //Variavel para testar antes se a peca a frente esta vazia e se posicao existe
 			if (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p) && getBoard().positionExists(p2) && !getBoard().thereIsAPiece(p2) && getMoveCount() == 0) {
 				mat[p.getRow()][p.getColumn()] = true;
 			}
