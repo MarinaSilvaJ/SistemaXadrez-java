@@ -2,13 +2,17 @@ package chess.pieces;
 
 import boardgame.Board;
 import boardgame.Position;
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.Color;
 
 public class Pawn extends ChessPiece {
 
-	public Pawn(Board board, Color color) {
+	private ChessMatch chessMatch;
+	
+	public Pawn(Board board, Color color, ChessMatch chessMatch) {
 		super(board, color);
+		this.chessMatch = chessMatch;
 	}
 
 	//Movimentacoes possiveis do peao: Ir para frente duas casas se for primeira jogada, ir para as diagonais se estiver vazio ou se tiver peca adversaria
@@ -36,6 +40,21 @@ public class Pawn extends ChessPiece {
 			if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
 				mat[p.getRow()][p.getColumn()] = true;
 			}
+			
+			//Movimento especial En Passant: Quando peao branco estiver na linha 3 da matriz e existir do lado esquerdo ou direito uma peca adversario.
+			if(position.getRow() == 3) { 
+				Position left = new Position(position.getRow(), position.getColumn() - 1);
+				if (getBoard().positionExists(left) && isThereOpponentPiece(left) && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
+					mat[left.getRow() - 1][left.getColumn()] = true;//Movimento possivel sera em cima da peca adversaria que sera capturada 
+				}
+				Position right = new Position(position.getRow(), position.getColumn() + 1);
+				if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
+					mat[right.getRow() - 1][right.getColumn()] = true;//Movimento possivel sera em cima da peca adversaria que sera capturada 
+				}
+			}
+			
+			
+			
 		}
 		else { //Se movimento atual for pecas pretas
 			p.setValue(position.getRow() + 1, position.getColumn()); //Testando se movimento for uma casa para frente
@@ -54,6 +73,18 @@ public class Pawn extends ChessPiece {
 			p.setValue(position.getRow() + 1, position.getColumn() + 1); //Testando se movimento for casa da diagonal direita
 			if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
 				mat[p.getRow()][p.getColumn()] = true;
+			}
+			
+			//Movimento especial En Passant: Quando peao preto estiver na linha 4 da matriz e existir do lado esquerdo ou direito uma peca adversario.
+			if(position.getRow() == 4) { 
+				Position left = new Position(position.getRow(), position.getColumn() - 1);
+				if (getBoard().positionExists(left) && isThereOpponentPiece(left) && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
+					mat[left.getRow() + 1][left.getColumn()] = true;//Movimento possivel sera em cima da peca adversaria que sera capturada 
+				}
+				Position right = new Position(position.getRow(), position.getColumn() + 1);
+				if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
+					mat[right.getRow() + 1][right.getColumn()] = true;//Movimento possivel sera em cima da peca adversaria que sera capturada 
+				}
 			}
 		}
 		
