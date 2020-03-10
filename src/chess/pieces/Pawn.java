@@ -51,9 +51,7 @@ public class Pawn extends ChessPiece {
 				if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
 					mat[right.getRow() - 1][right.getColumn()] = true;//Movimento possivel sera em cima da peca adversaria que sera capturada 
 				}
-			}
-			
-			
+			}		
 			
 		}
 		else { //Se movimento atual for pecas pretas
